@@ -15,21 +15,21 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          <li class="{{ request()->routeIs('mahasiswa.index') ? 'active':''}} ">
             <a href="{{ route('mahasiswa.index') }}">
               <i class="nc-icon nc-satisfied"></i>
               <p>Data Mahasiswa</p>
             </a>
           </li>
           <li>
-          <li class="active ">
+          <li class="{{ request()->routeIs('pemilik.index') ? 'active':''}} ">
             <a href="{{ route('pemilik.index') }}">
               <i class="nc-icon nc-single-02"></i>
               <p>Data Pemilik</p>
             </a>
           </li>
           <li>
-          <li class="active ">
+          <li class="{{ request()->routeIs('kost.index') ? 'active':''}} ">
             <a href="{{ route('kost.index') }}">
               <i class="nc-icon nc-istanbul"></i>
               <p>Kost</p>
