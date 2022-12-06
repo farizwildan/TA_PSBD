@@ -42,9 +42,18 @@ class kostController extends Controller
                 LEFT JOIN mahasiswa
                 ON kost.id_kost=mahasiswa.id_kost WHERE delete_in = 0 and kost.id_kost LIKE :search;',[
                 'search'=>'%'.$request->search.'%']);
+
+                $index2 = DB::select('SELECT kost.id_kost, kost.nama_kost, kost.tipe_kost, pemilik.nama_pemilik, pemilik.alamat , mahasiswa.id_mahasiswa, mahasiswa.nama_mahasiswa
+                FROM kost
+                LEFT JOIN pemilik
+                ON kost.id_kost=pemilik.id_kost
+                LEFT JOIN mahasiswa
+                ON kost.id_kost=mahasiswa.id_kost WHERE delete_in = 1 and kost.id_kost LIKE :search;',[
+                'search'=>'%'.$request->search.'%']);
+
                 return view('kost.index')
-            
-            ->with('datas', $datas);
+                ->with('datas', $datas)
+                ->with('index2', $index2);
             } else {
                 $datas = DB::select('SELECT kost.id_kost, kost.nama_kost, kost.tipe_kost, pemilik.nama_pemilik, pemilik.alamat , mahasiswa.id_mahasiswa, mahasiswa.nama_mahasiswa
                 FROM kost
@@ -52,10 +61,19 @@ class kostController extends Controller
                 ON kost.id_kost=pemilik.id_kost
                 LEFT JOIN mahasiswa
                 ON kost.id_kost=mahasiswa.id_kost WHERE delete_in = 0');
-                return view('kost.index')
             
-            ->with('datas', $datas);
-            }
+
+                $index2 = DB::select('SELECT kost.id_kost, kost.nama_kost, kost.tipe_kost, pemilik.nama_pemilik, pemilik.alamat , mahasiswa.id_mahasiswa, mahasiswa.nama_mahasiswa
+                FROM kost
+                LEFT JOIN pemilik
+                ON kost.id_kost=pemilik.id_kost
+                LEFT JOIN mahasiswa
+                ON kost.id_kost=mahasiswa.id_kost WHERE delete_in = 1');
+                return view('kost.index')
+                ->with('datas', $datas)
+                ->with('index2', $index2);
+                }
+            
             
         }
         public function edit($id) {
@@ -94,7 +112,14 @@ class kostController extends Controller
              DB::update('UPDATE kost SET delete_in = 1 WHERE id_kost = :id_kost', ['id_kost' => $id]);
 
             return redirect()->route('kost.index')->with('success', 'Data Barang berhasil dihapus');
-     }
-     
+            }
+            public function restore($id)
+            {
+             DB::update('UPDATE kost SET delete_in = 0 WHERE id_kost = :id_kost', ['id_kost' => $id]);
+
+             return redirect()->route('kost.index')->with('success', 'Data Barang berhasil dihapus');
+            }
+            
+        
             
 }

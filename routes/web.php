@@ -46,6 +46,7 @@ Route::prefix('kost')->group(function(){
     Route::post('update/{id}', [KostController::class,'update'])->name('kost.update');
     Route::post('delete/{id}', [KostController::class,'delete'])->name('kost.delete');
     Route::post('soft/{id}', [KostController::class, 'soft'])->name('kost.soft');
+    Route::post('restore/{id}', [KostController::class, 'restore'])->name('kost.restore');
 });
 
 Auth::routes();
